@@ -1,0 +1,256 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="VarinaDiscordTool.MainWindow"
+        Width="980" Height="620"
+        Background="#202225"
+        Title="NexText Tool"
+        RequestedThemeVariant="Dark"
+        FontFamily="Segoe UI, Arial"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid ColumnDefinitions="240,*">
+
+        <!-- SIDEBAR (Discord-style) -->
+        <Border Background="#202225" 
+                BorderBrush="#292b2f" 
+                BorderThickness="0,0,1,0">
+
+            <StackPanel Spacing="4" Margin="12">
+
+                <!-- Logo / Title -->
+                <Border Background="#2f3136" 
+                        CornerRadius="8" 
+                        Padding="12" Margin="0,0,0,16">
+                    <TextBlock Text="VARINA"
+                               Foreground="#00d4ff"
+                               FontSize="22"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"/>
+                </Border>
+
+                <!-- Navigation Buttons -->
+                <Button Content="🌐 Webhook" 
+                        Click="ShowWebhook"
+                        Height="42"
+                        HorizontalAlignment="Stretch"
+                        Background="#2f3136"
+                        BorderThickness="0"
+                        CornerRadius="6"
+                        FontSize="15"
+                        Margin="0,2"/>
+
+                <Button Content="📝 Embed Builder" 
+                        Click="ShowEmbed"
+                        Height="42"
+                        HorizontalAlignment="Stretch"
+                        Background="#2f3136"
+                        BorderThickness="0"
+                        CornerRadius="6"
+                        FontSize="15"
+                        Margin="0,2"/>
+
+                <Button Content="🖥️ Server Viewer" 
+                        Click="ShowServer"
+                        Height="42"
+                        HorizontalAlignment="Stretch"
+                        Background="#2f3136"
+                        BorderThickness="0"
+                        CornerRadius="6"
+                        FontSize="15"
+                        Margin="0,2"/>
+
+                <Button Content="📋 Channels" 
+                        Click="ShowChannels"
+                        Height="42"
+                        HorizontalAlignment="Stretch"
+                        Background="#2f3136"
+                        BorderThickness="0"
+                        CornerRadius="6"
+                        FontSize="15"
+                        Margin="0,2"/>
+
+            </StackPanel>
+        </Border>
+
+        <!-- MAIN CONTENT AREA -->
+        <Grid Grid.Column="1" Background="#2f3136" Margin="12">
+
+            <!-- WEBHOOK PANEL -->
+            <StackPanel x:Name="WebhookPanel" Spacing="16">
+
+                <TextBlock Text="Webhook Sender" 
+                           FontSize="20" 
+                           FontWeight="SemiBold"
+                           Foreground="#ffffff"
+                           Margin="0,0,0,8"/>
+
+                <TextBox x:Name="TxtWebhookUrl"
+                         PlaceholderText="https://discord.com/api/webhooks/..."
+                         Height="42"
+                         CornerRadius="6"
+                         Background="#40444b"
+                         BorderBrush="#202225"/>
+
+                <TextBox x:Name="TxtWebhookMessage"
+                         PlaceholderText="Message content..."
+                         AcceptsReturn="True"
+                         Height="120"
+                         CornerRadius="6"
+                         Background="#40444b"
+                         BorderBrush="#202225"/>
+
+                <TextBox x:Name="TxtImageUrl"
+                         PlaceholderText="Image / Attachment URL (optional)"
+                         Height="42"
+                         CornerRadius="6"
+                         Background="#40444b"
+                         BorderBrush="#202225"/>
+
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <Button Content="Send Webhook" 
+                            Click="BtnSendWebhook_Click"
+                            Height="42"
+                            Background="#5865f2"
+                            Foreground="White"
+                            FontWeight="SemiBold"
+                            CornerRadius="6"
+                            Padding="24,0"/>
+
+                    <Button Content="Save Preset" 
+                            Click="BtnSavePreset_Click"
+                            Height="42"
+                            Background="#40444b"
+                            CornerRadius="6"/>
+                </StackPanel>
+
+                <ComboBox x:Name="PresetDropdown"
+                          PlaceholderText="Load Preset..."
+                          Height="42"
+                          CornerRadius="6"
+                          Background="#40444b"
+                          SelectionChanged="PresetChanged"/>
+
+                <Border Background="#202225" 
+                        CornerRadius="6" 
+                        Padding="12">
+                    <TextBlock x:Name="TxtWebhookOutput"
+                               Foreground="#b9bbbe"
+                               TextWrapping="Wrap"/>
+                </Border>
+            </StackPanel>
+
+            <!-- EMBED BUILDER PANEL -->
+            <StackPanel x:Name="EmbedPanel" IsVisible="False" Spacing="16">
+
+                <TextBlock Text="Embed Builder" 
+                           FontSize="20" 
+                           FontWeight="SemiBold"
+                           Foreground="#ffffff"
+                           Margin="0,0,0,8"/>
+
+                <TextBox x:Name="TxtEmbedTitle"
+                         PlaceholderText="Embed Title"
+                         Height="42"
+                         CornerRadius="6"
+                         Background="#40444b"/>
+
+                <TextBox x:Name="TxtEmbedDesc"
+                         PlaceholderText="Embed Description..."
+                         AcceptsReturn="True"
+                         Height="110"
+                         CornerRadius="6"
+                         Background="#40444b"/>
+
+                <TextBox x:Name="TxtEmbedColor"
+                         PlaceholderText="Hex Color (e.g. 5865f2)"
+                         Height="42"
+                         CornerRadius="6"
+                         Background="#40444b"/>
+
+                <TextBox x:Name="TxtEmbedImage"
+                         PlaceholderText="Image URL"
+                         Height="42"
+                         CornerRadius="6"
+                         Background="#40444b"/>
+
+                <Button Content="Send Embed" 
+                        Click="BtnSendEmbed_Click"
+                        Height="46"
+                        Background="#5865f2"
+                        Foreground="White"
+                        FontWeight="SemiBold"
+                        CornerRadius="6"
+                        HorizontalAlignment="Left"
+                        Padding="32,0"/>
+            </StackPanel>
+
+            <!-- SERVER VIEWER PANEL -->
+            <StackPanel x:Name="ServerPanel" IsVisible="False" Spacing="16">
+
+                <TextBlock Text="Server Viewer" 
+                           FontSize="20" 
+                           FontWeight="SemiBold"
+                           Foreground="#ffffff"
+                           Margin="0,0,0,8"/>
+
+                <TextBox x:Name="TxtViewerToken"
+                         PlaceholderText="Bot Token"
+                         Height="42"
+                         CornerRadius="6"
+                         Background="#40444b"/>
+
+                <TextBox x:Name="TxtViewerGuildId"
+                         PlaceholderText="Guild ID"
+                         Height="42"
+                         CornerRadius="6"
+                         Background="#40444b"/>
+
+                <Button Content="Load Server" 
+                        Click="BtnServerViewer_Click"
+                        Height="46"
+                        Background="#5865f2"
+                        Foreground="White"
+                        FontWeight="SemiBold"
+                        CornerRadius="6"
+                        HorizontalAlignment="Left"
+                        Padding="32,0"/>
+
+                <Border Background="#202225" 
+                        CornerRadius="6" 
+                        Padding="12">
+                    <TextBlock x:Name="TxtViewerOutput"
+                               Foreground="#b9bbbe"
+                               TextWrapping="Wrap"/>
+                </Border>
+
+                <!-- Graph Area -->
+                <Border Background="#202225" 
+                        CornerRadius="8" 
+                        Padding="16"
+                        Height="180">
+                    <StackPanel x:Name="GraphPanel"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
+                </Border>
+            </StackPanel>
+
+            <!-- CHANNELS PANEL -->
+            <StackPanel x:Name="ChannelPanel" IsVisible="False" Spacing="16">
+
+                <TextBlock Text="Channels" 
+                           FontSize="20" 
+                           FontWeight="SemiBold"
+                           Foreground="#ffffff"
+                           Margin="0,0,0,8"/>
+
+                <ListBox x:Name="ChannelList"
+                         Background="#40444b"
+                         CornerRadius="6"
+                         BorderThickness="0"
+                         Height="420"/>
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+</Window>
